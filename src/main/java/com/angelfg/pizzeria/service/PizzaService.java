@@ -43,4 +43,12 @@ public class PizzaService {
         pizzaRepository.deleteById(idPizza);
     }
 
+    public List<PizzaEntity> getAvailable() {
+        return pizzaRepository.findAllByAvailableTrueOrderByPriceAsc();
+    }
+
+    public PizzaEntity getByName(String name) {
+        return pizzaRepository.findAllByAvailableTrueAndNameIgnoreCase(name);
+    }
+
 }
