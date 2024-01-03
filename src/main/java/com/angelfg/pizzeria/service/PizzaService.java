@@ -1,6 +1,7 @@
 package com.angelfg.pizzeria.service;
 
 import com.angelfg.pizzeria.persistence.entity.PizzaEntity;
+import com.angelfg.pizzeria.persistence.repository.PizzaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,17 @@ public class PizzaService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private PizzaRepository pizzaRepository;
+
     public List<PizzaEntity> getAll() {
-        return jdbcTemplate.query("SELECT * FROM pizza WHERE available = 0", new BeanPropertyRowMapper<>(PizzaEntity.class));
+        // return jdbcTemplate.query("SELECT * FROM pizza WHERE available = 0", new BeanPropertyRowMapper<>(PizzaEntity.class));
+
+        return pizzaRepository.findAll();
+    }
+
+    public PizzaEntity get(int idPizza) {
+        return pizzaRepository.findById(idPizza).orElse(null);
     }
 
 }
