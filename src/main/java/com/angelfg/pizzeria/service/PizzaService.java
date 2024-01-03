@@ -51,4 +51,12 @@ public class PizzaService {
         return pizzaRepository.findAllByAvailableTrueAndNameIgnoreCase(name);
     }
 
+    public List<PizzaEntity> getWith(String ingredient) {
+        return pizzaRepository.findAllByAvailableTrueAndDescriptionContainingIgnoreCase(ingredient);
+    }
+
+    public List<PizzaEntity> getWithout(String ingredient) {
+        return pizzaRepository.findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(ingredient);
+    }
+
 }
