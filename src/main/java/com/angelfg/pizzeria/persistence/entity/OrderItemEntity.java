@@ -1,5 +1,6 @@
 package com.angelfg.pizzeria.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,7 @@ public class OrderItemEntity {
             insertable = false,
             updatable = false
     )
+    @JsonIgnore
     private OrderEntity order;
 
     // Un order item solo puede tener una pizza

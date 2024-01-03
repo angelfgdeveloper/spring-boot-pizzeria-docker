@@ -1,5 +1,6 @@
 package com.angelfg.pizzeria.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,17 +35,18 @@ public class OrderEntity {
 
 
     // RELACIONES #2
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY) // LAZY no cargue esta relacion hasta que se use (Cuando llamamos el customer.getName() por ejemplo)
     @JoinColumn(
             name = "id_customer",
             referencedColumnName = "id_customer",
             insertable = false,
             updatable = false
     )
+    @JsonIgnore
     private CustomerEntity customer;
 
     // Relacion circular (con nombre del OrderItemEntity.class => OrderEntity order)
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER) // EAGER => cuando utilicemos esta clase lo llame inmediatamente
     private List<OrderItemEntity> items;
 
 }
