@@ -5,6 +5,7 @@ import com.angelfg.pizzeria.service.PizzaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,6 +87,15 @@ public class PizzaController {
     @GetMapping("/cheapest/{price}")
     public ResponseEntity<List<PizzaEntity>> getCheapestPizzas(@PathVariable double price) {
         return ResponseEntity.ok(pizzaService.getCheapest(price));
+    }
+
+    // Paginacion
+    @GetMapping("/page")
+    public ResponseEntity<Page<PizzaEntity>> getAllPageable(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int elements
+    ) {
+        return ResponseEntity.ok(pizzaService.getAllPageable(page, elements));
     }
 
 }

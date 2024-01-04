@@ -1,10 +1,14 @@
 package com.angelfg.pizzeria.service;
 
 import com.angelfg.pizzeria.persistence.entity.PizzaEntity;
+import com.angelfg.pizzeria.persistence.repository.PizzaPagSortRepository;
 import com.angelfg.pizzeria.persistence.repository.PizzaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +24,9 @@ public class PizzaService {
 
     @Autowired
     private PizzaRepository pizzaRepository;
+
+    @Autowired
+    private PizzaPagSortRepository pizzaPagSortRepository;
 
     public List<PizzaEntity> getAll() {
         // return jdbcTemplate.query("SELECT * FROM pizza WHERE available = 0", new BeanPropertyRowMapper<>(PizzaEntity.class));
@@ -67,6 +74,12 @@ public class PizzaService {
 
     public List<PizzaEntity> getCheapest(double price) {
         return pizzaRepository.findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(price);
+    }
+
+    // Paginacion
+    public Page<PizzaEntity> getAllPageable(int page, int elements) {
+        Pageable pageRequest = PageRequest.of(page, elements);
+        return pizzaPagSortRepository.findAll(pageRequest);
     }
 
 }
