@@ -60,4 +60,13 @@ public class PizzaService {
         return pizzaRepository.findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(ingredient);
     }
 
+    public PizzaEntity getFirstPizzaAvailableByName(String name) {
+        return pizzaRepository.findFirstByAvailableTrueAndNameIgnoreCase(name)
+                .orElseThrow(() -> new RuntimeException("La pizza no existe"));
+    }
+
+    public List<PizzaEntity> getCheapest(double price) {
+        return pizzaRepository.findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(price);
+    }
+
 }

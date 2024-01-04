@@ -4,6 +4,7 @@ import com.angelfg.pizzeria.persistence.entity.PizzaEntity;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PizzaRepository extends ListCrudRepository<PizzaEntity, Integer> {
 
@@ -21,5 +22,12 @@ public interface PizzaRepository extends ListCrudRepository<PizzaEntity, Integer
     List<PizzaEntity> findAllByAvailableTrueAndDescriptionNotContainingIgnoreCase(String description);
 
     int countByVeganTrue();
+
+    // Solo obtiene un elemento (limit 1)
+    Optional<PizzaEntity> findFirstByAvailableTrueAndNameIgnoreCase(String name);
+
+    // El Top 3 son el numero de registros que van aparecer
+    // LessThanEqual => menor o igual ...
+    List<PizzaEntity> findTop3ByAvailableTrueAndPriceLessThanEqualOrderByPriceAsc(double price);
 
 }
