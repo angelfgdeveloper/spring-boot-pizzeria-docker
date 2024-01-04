@@ -44,6 +44,7 @@ public class PizzaService {
     }
 
     public List<PizzaEntity> getAvailable() {
+        log.debug("Numero de pizzas veganas: " + pizzaRepository.countByVeganTrue());
         return pizzaRepository.findAllByAvailableTrueOrderByPriceAsc();
     }
 
