@@ -1,6 +1,8 @@
 package com.angelfg.pizzeria.web.controller;
 
 import com.angelfg.pizzeria.persistence.entity.OrderEntity;
+import com.angelfg.pizzeria.persistence.entity.PizzaEntity;
+import com.angelfg.pizzeria.persistence.projection.OrderSummary;
 import com.angelfg.pizzeria.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +42,11 @@ public class OrderController {
     @GetMapping("/customer/{id}")
     public ResponseEntity<List<OrderEntity>> getCustomerOrders(@PathVariable String id) {
         return ResponseEntity.ok(orderService.getCustomerOrders(id));
+    }
+
+    @GetMapping("/summary/{id}")
+    public ResponseEntity<OrderSummary> getOrderSummary(@PathVariable int id) {
+        return ResponseEntity.ok(orderService.getSummary(id));
     }
 
 }

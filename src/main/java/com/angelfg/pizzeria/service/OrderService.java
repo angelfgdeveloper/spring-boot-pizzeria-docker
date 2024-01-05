@@ -1,6 +1,7 @@
 package com.angelfg.pizzeria.service;
 
 import com.angelfg.pizzeria.persistence.entity.OrderEntity;
+import com.angelfg.pizzeria.persistence.projection.OrderSummary;
 import com.angelfg.pizzeria.persistence.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,10 @@ public class OrderService {
 
     public List<OrderEntity> getCustomerOrders(String idCustomer) {
         return orderRepository.findCustomerOrders(idCustomer);
+    }
+
+    public OrderSummary getSummary(int orderId) {
+        return orderRepository.findSummary(orderId);
     }
 
 }
