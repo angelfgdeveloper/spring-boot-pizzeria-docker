@@ -47,6 +47,7 @@ public class OrderEntity {
 
     // Relacion circular (con nombre del OrderItemEntity.class => OrderEntity order)
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER) // EAGER => cuando utilicemos esta clase lo llame inmediatamente
+    @OrderBy("price ASC") // podemos ordernar por atributo ASC - DESC hasta por queries nativos
     private List<OrderItemEntity> items;
 
 }
