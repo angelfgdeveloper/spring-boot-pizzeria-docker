@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +81,16 @@ public class PizzaService {
     public Page<PizzaEntity> getAllPageable(int page, int elements) {
         Pageable pageRequest = PageRequest.of(page, elements);
         return pizzaPagSortRepository.findAll(pageRequest);
+    }
+
+    public Page<PizzaEntity> getAvailablePageable(int page, int elements, String sortBy, String sortDirection) {
+
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy); // Filtrarlo por ordenamiento ASC - DESC
+
+        // Pageable pageRequest = PageRequest.of(page, elements, Sort.by(sortBy)); => normal
+        Pageable pageRequest = PageRequest.of(page, elements, sort);
+
+        return pizzaPagSortRepository.findByAvailableTrue(pageRequest);
     }
 
 }

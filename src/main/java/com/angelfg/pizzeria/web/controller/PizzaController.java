@@ -98,4 +98,14 @@ public class PizzaController {
         return ResponseEntity.ok(pizzaService.getAllPageable(page, elements));
     }
 
+    @GetMapping("/available/page")
+    public ResponseEntity<Page<PizzaEntity>> getAvailablePageable(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int elements,
+            @RequestParam(defaultValue = "price") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection
+    ) {
+        return ResponseEntity.ok(pizzaService.getAvailablePageable(page, elements, sortBy, sortDirection));
+    }
+
 }
