@@ -3,6 +3,7 @@ package com.angelfg.pizzeria.service;
 import com.angelfg.pizzeria.persistence.entity.PizzaEntity;
 import com.angelfg.pizzeria.persistence.repository.PizzaPagSortRepository;
 import com.angelfg.pizzeria.persistence.repository.PizzaRepository;
+import com.angelfg.pizzeria.service.dto.UpdatePizzaPriceDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -91,6 +93,11 @@ public class PizzaService {
         Pageable pageRequest = PageRequest.of(page, elements, sort);
 
         return pizzaPagSortRepository.findByAvailableTrue(pageRequest);
+    }
+
+    @Transactional
+    public void updatePrice(UpdatePizzaPriceDto updatePizzaPriceDto) {
+        pizzaRepository.updatePrice(updatePizzaPriceDto);
     }
 
 }

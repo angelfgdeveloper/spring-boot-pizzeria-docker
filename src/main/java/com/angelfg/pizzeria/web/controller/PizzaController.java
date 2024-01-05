@@ -2,6 +2,7 @@ package com.angelfg.pizzeria.web.controller;
 
 import com.angelfg.pizzeria.persistence.entity.PizzaEntity;
 import com.angelfg.pizzeria.service.PizzaService;
+import com.angelfg.pizzeria.service.dto.UpdatePizzaPriceDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,16 @@ public class PizzaController {
             @RequestParam(defaultValue = "ASC") String sortDirection
     ) {
         return ResponseEntity.ok(pizzaService.getAvailablePageable(page, elements, sortBy, sortDirection));
+    }
+
+    @PutMapping("/price")
+    public ResponseEntity<Void> updatePrice(@RequestBody UpdatePizzaPriceDto updatePizzaPriceDto) {
+        if (pizzaService.exists(updatePizzaPriceDto.getPizzaId())) {
+            pizzaService.updatePrice(updatePizzaPriceDto);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
 }
