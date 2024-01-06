@@ -1,15 +1,10 @@
 package com.angelfg.pizzeria.persistence.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "pizza")
@@ -17,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PizzaEntity {
+public class PizzaEntity extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,14 +36,5 @@ public class PizzaEntity {
 
     @Column(columnDefinition = "TINYINT", nullable = false)
     private Boolean available;
-
-    // Auditable
-    @Column(name = "created_date")
-    @CreatedDate
-    private LocalDateTime createdDate; // Cuando se creo la pizza
-
-    @Column(name = "modify_date")
-    @LastModifiedDate
-    private LocalDateTime modifyDate; // Cuando se modifico una pizza
 
 }
