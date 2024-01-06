@@ -4,6 +4,7 @@ import com.angelfg.pizzeria.persistence.entity.PizzaEntity;
 import com.angelfg.pizzeria.persistence.repository.PizzaPagSortRepository;
 import com.angelfg.pizzeria.persistence.repository.PizzaRepository;
 import com.angelfg.pizzeria.service.dto.UpdatePizzaPriceDto;
+import com.angelfg.pizzeria.service.exception.EmailApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -98,6 +100,29 @@ public class PizzaService {
     @Transactional
     public void updatePrice(UpdatePizzaPriceDto updatePizzaPriceDto) {
         pizzaRepository.updatePrice(updatePizzaPriceDto);
+    }
+
+    @Transactional
+    public void updatePriceConRollback(UpdatePizzaPriceDto updatePizzaPriceDto) {
+        pizzaRepository.updatePrice(updatePizzaPriceDto);
+        sendEmail(); // Si ocurre un error hace un rollback para no guardar los datos
+    }
+
+    @Transactional(noRollbackFor = EmailApiException.class)
+    public void updatePriceConRollbackAEmailApiException(UpdatePizzaPriceDto updatePizzaPriceDto) {
+        pizzaRepository.updatePrice(updatePizzaPriceDto); // Si hace el cambio
+        sendEmail(); // Falla pero no hace rollback en el error de sendEmail
+    }
+
+    @Transactional(noRollbackFor = EmailApiException.class, propagation = Propagation.REQUIRED) // Default, debe existir una transaccion para ejecutar el metodo
+    // @Transactional(noRollbackFor = EmailApiException.class, propagation = Propagation.MANDATORY) // No se expresa el metodo pero generara una excepcion
+    public void updatePriceConRollbackAEmailApiExceptionConPropagationRequired(UpdatePizzaPriceDto updatePizzaPriceDto) {
+        pizzaRepository.updatePrice(updatePizzaPriceDto);
+        sendEmail();
+    }
+
+    private void sendEmail() {
+        throw new EmailApiException();
     }
 
 }

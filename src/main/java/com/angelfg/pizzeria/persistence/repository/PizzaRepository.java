@@ -48,3 +48,9 @@ public interface PizzaRepository extends ListCrudRepository<PizzaEntity, Integer
     void updatePrice(@Param("newPizzaPrice") UpdatePizzaPriceDto newPizzaPrice);
 
 }
+
+// ACID (Transaction para asegurar la atomicidad)
+// A => Atomicity (Todo o nada, no debe de quedar a la mitad)
+// C => Consistency (Solo podemos ser consistente con los datos que realmente existan en las tablas) integracion de la informacion
+// I => Isolation (Garantiza que las transacciones sean independientes y no deban mezclarse)
+// D => Durability (Garantizar que las transacciones persistan en el tiempo)
