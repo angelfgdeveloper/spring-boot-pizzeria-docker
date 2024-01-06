@@ -3,10 +3,12 @@ package com.angelfg.pizzeria.service;
 import com.angelfg.pizzeria.persistence.entity.OrderEntity;
 import com.angelfg.pizzeria.persistence.projection.OrderSummary;
 import com.angelfg.pizzeria.persistence.repository.OrderRepository;
+import com.angelfg.pizzeria.service.dto.RandomOrderDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -55,6 +57,11 @@ public class OrderService {
 
     public OrderSummary getSummary(int orderId) {
         return orderRepository.findSummary(orderId);
+    }
+
+    @Transactional
+    public boolean saveRandomOrder(RandomOrderDto randomOrderDto) {
+        return orderRepository.saveRandomOrder(randomOrderDto.getIdCustomer(), randomOrderDto.getMethod());
     }
 
 }
